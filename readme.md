@@ -1,4 +1,4 @@
-# infermedica
+# Infermedica (unofficial)
 Go interface to the infermedica REST API
 
 ## Description
