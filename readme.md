@@ -7,4 +7,4 @@ This is a Go interface to the Infermedica REST API: https://developer.infermedic
 
 ## Installation
 
-```go get https://github.com/torniker/infermedica.git```
+```go get github.com/torniker/infermedica```
