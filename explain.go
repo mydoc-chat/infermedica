@@ -6,10 +6,10 @@ import (
 )
 
 type ExplainReq struct {
-	Sex      Sex        `json:"sex"`
-	Age      int        `json:"age"`
-	Target   string     `json:"target"`
-	Evidence []Evidence `json:"evidence"`
+	Sex       Sex        `json:"sex"`
+	Age       int        `json:"age"`
+	Target    string     `json:"target"`
+	Evidences []Evidence `json:"evidence"`
 }
 
 type ExplainRes struct {
@@ -23,7 +23,7 @@ type EvidenceItem struct {
 	CommonName string `json:"common_name"`
 }
 
-func (a *app) Explain(er ExplainReq) (*ExplainRes, error) {
+func (a *App) Explain(er ExplainReq) (*ExplainRes, error) {
 	req, err := a.prepareRequest("POST", "explain", er)
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (a *app) Explain(er ExplainReq) (*ExplainRes, error) {
 		return nil, err
 	}
 	r := ExplainRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

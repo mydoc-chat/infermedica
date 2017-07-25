@@ -18,7 +18,7 @@ type LabResult struct {
 	Type string `json:"type"`
 }
 
-func (a *app) LabTests() (*[]LabTestsRes, error) {
+func (a *App) LabTests() (*[]LabTestsRes, error) {
 	req, err := a.prepareRequest("GET", "lab_tests", nil)
 	if err != nil {
 		return nil, err
@@ -29,14 +29,14 @@ func (a *app) LabTests() (*[]LabTestsRes, error) {
 		return nil, err
 	}
 	r := []LabTestsRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}
 	return &r, nil
 }
 
-func (a *app) LabTestByID(id string) (*LabTestsRes, error) {
+func (a *App) LabTestByID(id string) (*LabTestsRes, error) {
 	req, err := a.prepareRequest("GET", "lab_tests/"+id, nil)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (a *app) LabTestByID(id string) (*LabTestsRes, error) {
 		return nil, err
 	}
 	r := LabTestsRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

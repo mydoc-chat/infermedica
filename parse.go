@@ -22,8 +22,8 @@ type Mention struct {
 	CommonName string `json:"common_name"`
 }
 
-func (a *app) Parse(pr ParseReq) (*ParseRes, error) {
-	req, err := a.prepareRequest("GET", "parse", pr)
+func (a *App) Parse(pr ParseReq) (*ParseRes, error) {
+	req, err := a.preparePOSTRequest("parse", pr)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (a *app) Parse(pr ParseReq) (*ParseRes, error) {
 		return nil, err
 	}
 	r := ParseRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

@@ -14,7 +14,7 @@ type InfoRes struct {
 	LabTestsCount    int       `json:"lab_tests_count"`
 }
 
-func (a *app) Info() (*[]InfoRes, error) {
+func (a *App) Info() (*InfoRes, error) {
 	req, err := a.prepareRequest("GET", "info", nil)
 	if err != nil {
 		return nil, err
@@ -24,8 +24,8 @@ func (a *app) Info() (*[]InfoRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	r := []InfoRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	r := InfoRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

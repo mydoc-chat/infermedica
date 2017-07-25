@@ -27,7 +27,7 @@ type ConditionExtras struct {
 	ICD10Code string `json:"icd10_code"`
 }
 
-func (a *app) Conditions() (*[]ConditionRes, error) {
+func (a *App) Conditions() (*[]ConditionRes, error) {
 	req, err := a.prepareRequest("GET", "conditions", nil)
 	if err != nil {
 		return nil, err
@@ -38,15 +38,15 @@ func (a *app) Conditions() (*[]ConditionRes, error) {
 		return nil, err
 	}
 	r := []ConditionRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}
 	return &r, nil
 }
 
-func (a *app) ConditionByID(id string) (*ConditionRes, error) {
-	req, err := a.prepareRequest("GET", "conditions/"+id, nil)
+func (a *App) ConditionByID(id string) (*ConditionRes, error) {
+	req, err := a.prepareGETRequest("conditions/" + id)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (a *app) ConditionByID(id string) (*ConditionRes, error) {
 		return nil, err
 	}
 	r := ConditionRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

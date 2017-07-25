@@ -48,7 +48,7 @@ func SearchTypeFromString(x string) (SearchType, error) {
 	}
 }
 
-func (a *app) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]SearchRes, error) {
+func (a *App) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]SearchRes, error) {
 	if !sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
@@ -66,7 +66,7 @@ func (a *app) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]
 		return nil, err
 	}
 	r := []SearchRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

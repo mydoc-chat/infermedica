@@ -10,9 +10,9 @@ import (
 )
 
 type TriageReq struct {
-	Sex      Sex        `json:"sex"`
-	Age      int        `json:"age"`
-	Evidence []Evidence `json:"evidence"`
+	Sex       Sex        `json:"sex"`
+	Age       int        `json:"age"`
+	Evidences []Evidence `json:"evidence"`
 }
 
 type TriageRes struct {
@@ -59,7 +59,7 @@ func TriageLevelFromString(x string) (TriageLevel, error) {
 	}
 }
 
-func (a *app) Triage(tr TriageReq) (*TriageRes, error) {
+func (a *App) Triage(tr TriageReq) (*TriageRes, error) {
 	if !tr.Sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
@@ -73,7 +73,7 @@ func (a *app) Triage(tr TriageReq) (*TriageRes, error) {
 		return nil, err
 	}
 	r := TriageRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

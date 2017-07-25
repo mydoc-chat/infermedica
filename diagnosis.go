@@ -8,9 +8,9 @@ import (
 )
 
 type DiagnosisReq struct {
-	Sex      Sex        `json:"sex"`
-	Age      int        `json:"age"`
-	Evidence []Evidence `json:"evidence"`
+	Sex       Sex        `json:"sex"`
+	Age       int        `json:"age"`
+	Evidences []Evidence `json:"evidence"`
 }
 
 type DiagnosisRes struct {
@@ -40,7 +40,7 @@ type DiagnosisConditionRes struct {
 	Probability float64 `json:"probability"`
 }
 
-func (a *app) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
+func (a *App) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
 	if !dr.Sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
@@ -54,7 +54,7 @@ func (a *app) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
 		return nil, err
 	}
 	r := DiagnosisRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

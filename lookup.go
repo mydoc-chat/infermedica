@@ -3,7 +3,6 @@ package infermedica
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -13,11 +12,11 @@ type LookupRes struct {
 	Label string `json:"label"`
 }
 
-func (a *app) Lookup(phrases []string, sex Sex) (*[]LookupRes, error) {
+func (a *App) Lookup(phrase string, sex Sex) (*LookupRes, error) {
 	if !sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
-	url := "lookup?phrase=" + strings.Join(phrases, ", ") + "&sex=" + sex.String()
+	url := "lookup?phrase=" + phrase + "&sex=" + sex.String()
 	req, err := a.prepareRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -27,8 +26,8 @@ func (a *app) Lookup(phrases []string, sex Sex) (*[]LookupRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	r := []LookupRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	r := LookupRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

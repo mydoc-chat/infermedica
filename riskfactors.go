@@ -16,7 +16,7 @@ type RiskFactorRes struct {
 	ImageSource string `json:"image_source"`
 }
 
-func (a *app) RiskFactors() (*[]RiskFactorRes, error) {
+func (a *App) RiskFactors() (*[]RiskFactorRes, error) {
 	req, err := a.prepareRequest("GET", "risk_factors", nil)
 	if err != nil {
 		return nil, err
@@ -26,15 +26,15 @@ func (a *app) RiskFactors() (*[]RiskFactorRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	riskFactors := []RiskFactorRes{}
-	err = json.NewDecoder(res.Body).Decode(riskFactors)
+	r := []RiskFactorRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}
-	return &riskFactors, nil
+	return &r, nil
 }
 
-func (a *app) RiskFactorByID(id string) (*RiskFactorRes, error) {
+func (a *App) RiskFactorByID(id string) (*RiskFactorRes, error) {
 	req, err := a.prepareRequest("GET", "risk_factors/"+id, nil)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (a *app) RiskFactorByID(id string) (*RiskFactorRes, error) {
 		return nil, err
 	}
 	r := RiskFactorRes{}
-	err = json.NewDecoder(res.Body).Decode(r)
+	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
 	}

@@ -6,16 +6,18 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
-type app struct {
+type App struct {
 	baseURL string
 	appID   string
 	appKey  string
 }
 
-func NewApp(id, key string) app {
-	return app{
+func NewApp(id, key string) App {
+	return App{
 		baseURL: "https://api.infermedica.com/v2/",
 		appID:   id,
 		appKey:  key,
@@ -56,18 +58,42 @@ type Evidence struct {
 	ChoiceID string `json:"choice_id"`
 }
 
-func (a app) prepareRequest(method, url string, body interface{}) (*http.Request, error) {
-	var b *bytes.Buffer
-	if body != nil {
-		json.NewEncoder(b).Encode(body)
+func (a App) prepareRequest(method, url string, body interface{}) (*http.Request, error) {
+
+	switch method {
+	case "GET":
+		return a.prepareGETRequest(url)
+	case "POST":
+		return a.preparePOSTRequest(url, body)
 	}
-	req, err := http.NewRequest(method, a.baseURL+url, b)
-	if err != nil {
-		return nil, err
-	}
+	return nil, errors.New("Method not allowed")
+}
+
+func (a App) addHeaders(req *http.Request) {
 	req.Header.Add("App-Id", a.appID)
 	req.Header.Add("App-Key", a.appKey)
 	req.Header.Add("Content-Type", "application/json")
-	return req, nil
+}
 
+func (a App) prepareGETRequest(url string) (*http.Request, error) {
+	req, err := http.NewRequest("GET", a.baseURL+url, nil)
+	if err != nil {
+		return nil, err
+	}
+	a.addHeaders(req)
+	return req, nil
+}
+
+func (a App) preparePOSTRequest(url string, body interface{}) (*http.Request, error) {
+	b := new(bytes.Buffer)
+	err := json.NewEncoder(b).Encode(body)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest("POST", a.baseURL+url, b)
+	if err != nil {
+		return nil, err
+	}
+	a.addHeaders(req)
+	return req, nil
 }
