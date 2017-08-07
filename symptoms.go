@@ -46,7 +46,7 @@ func (a *App) SymptomsIDMap() (*map[string]SymptomRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	var rmap map[string]SymptomRes
+	rmap := make(map[string]SymptomRes)
 	for _, sr := range *r {
 		rmap[sr.ID] = sr
 	}
