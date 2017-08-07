@@ -41,6 +41,28 @@ func (a *App) Symptoms() (*[]SymptomRes, error) {
 	return &r, nil
 }
 
+func (a *App) SymptomsIDMap() (*map[string]SymptomRes, error) {
+	req, err := a.prepareRequest("GET", "symptoms", nil)
+	if err != nil {
+		return nil, err
+	}
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	r := []SymptomRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
+	if err != nil {
+		return nil, err
+	}
+	var rmap map[string]SymptomRes
+	for _, sr := range r {
+		rmap[sr.ID] = sr
+	}
+	return &rmap, nil
+}
+
 func (a *App) SymptomByID(id string) (*SymptomRes, error) {
 	req, err := a.prepareRequest("GET", "symptoms/"+id, nil)
 	if err != nil {
