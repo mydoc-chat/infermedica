@@ -14,19 +14,19 @@ func TestApp_Triage(t *testing.T) {
 		Evidences: []Evidence{
 			Evidence{
 				ID:       "s_1193",
-				ChoiceID: "present",
+				ChoiceID: EvidenceChoiceIDPresent,
 			},
 			Evidence{
 				ID:       "s_488",
-				ChoiceID: "present",
+				ChoiceID: EvidenceChoiceIDPresent,
 			},
 			Evidence{
 				ID:       "s_418",
-				ChoiceID: "present",
+				ChoiceID: EvidenceChoiceIDPresent,
 			},
 			Evidence{
 				ID:       "s_320",
-				ChoiceID: "absent",
+				ChoiceID: EvidenceChoiceIDAbsent,
 			},
 		},
 	}

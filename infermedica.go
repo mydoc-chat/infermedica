@@ -53,9 +53,41 @@ func SexFromString(x string) (Sex, error) {
 	}
 }
 
+type EvidenceChoiceID string
+
+const (
+	EvidenceChoiceIDPresent EvidenceChoiceID = "present"
+	EvidenceChoiceIDAbsent  EvidenceChoiceID = "absent"
+	EvidenceChoiceIDUnknown EvidenceChoiceID = "unknown"
+)
+
+func (ecID EvidenceChoiceID) Ptr() *EvidenceChoiceID { return &ecID }
+func (ecID EvidenceChoiceID) String() string         { return string(ecID) }
+
+func (ecID EvidenceChoiceID) IsValid() bool {
+	_, err := EvidenceChoiceIDFromString(ecID.String())
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func EvidenceChoiceIDFromString(x string) (EvidenceChoiceID, error) {
+	switch strings.ToLower(x) {
+	case "present":
+		return EvidenceChoiceIDPresent, nil
+	case "absent":
+		return EvidenceChoiceIDAbsent, nil
+	case "unknown":
+		return EvidenceChoiceIDUnknown, nil
+	default:
+		return "", fmt.Errorf("Unexpected value for evidence choice id: %q", x)
+	}
+}
+
 type Evidence struct {
-	ID       string `json:"id"`
-	ChoiceID string `json:"choice_id"`
+	ID       string           `json:"id"`
+	ChoiceID EvidenceChoiceID `json:"choice_id"`
 }
 
 func (a App) prepareRequest(method, url string, body interface{}) (*http.Request, error) {

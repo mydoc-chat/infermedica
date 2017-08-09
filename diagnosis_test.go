@@ -14,11 +14,11 @@ func TestApp_Diagnosis(t *testing.T) {
 		Evidences: []Evidence{
 			Evidence{
 				ID:       "s_1193",
-				ChoiceID: "present",
+				ChoiceID: EvidenceChoiceIDPresent,
 			},
 			Evidence{
 				ID:       "s_488",
-				ChoiceID: "present",
+				ChoiceID: EvidenceChoiceIDPresent,
 			},
 		},
 	}
