@@ -15,6 +15,7 @@ type ExplainReq struct {
 type ExplainRes struct {
 	SupportingEvidence  []EvidenceItem `json:"supporting_evidence"`
 	ConflictingEvidence []EvidenceItem `json:"conflicting_evidence"`
+	UnconfirmedEvidence []EvidenceItem `json:"unconfirmed_evidence"`
 }
 
 type EvidenceItem struct {
