@@ -53,6 +53,38 @@ func SexFromString(x string) (Sex, error) {
 	}
 }
 
+type SexFilter string
+
+const (
+	SexFilterBoth   SexFilter = "both"
+	SexFilterMale   SexFilter = "male"
+	SexFilterFemale SexFilter = "female"
+)
+
+func (s SexFilter) Ptr() *SexFilter { return &s }
+func (s SexFilter) String() string  { return string(s) }
+
+func (s *SexFilter) IsValid() bool {
+	_, err := SexFilterFromString(s.String())
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func SexFilterFromString(x string) (SexFilter, error) {
+	switch strings.ToLower(x) {
+	case "both":
+		return SexFilterBoth, nil
+	case "male":
+		return SexFilterMale, nil
+	case "female":
+		return SexFilterFemale, nil
+	default:
+		return "", fmt.Errorf("Unexpected value for SexFilter: %q", x)
+	}
+}
+
 type EvidenceChoiceID string
 
 const (

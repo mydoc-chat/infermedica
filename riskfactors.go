@@ -6,14 +6,14 @@ import (
 )
 
 type RiskFactorRes struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	CommonName  string `json:"common_name"`
-	SexFilter   string `json:"sex_filter"`
-	Category    string `json:"category"`
-	Seriousness string `json:"seriousness"`
-	ImageUrl    string `json:"image_url"`
-	ImageSource string `json:"image_source"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	CommonName  string    `json:"common_name"`
+	SexFilter   SexFilter `json:"sex_filter"`
+	Category    string    `json:"category"`
+	Seriousness string    `json:"seriousness"`
+	ImageUrl    string    `json:"image_url"`
+	ImageSource string    `json:"image_source"`
 }
 
 func (a *App) RiskFactors() (*[]RiskFactorRes, error) {

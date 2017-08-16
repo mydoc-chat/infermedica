@@ -117,7 +117,7 @@ type Condition struct {
 
 type ConditionRes struct {
 	Condition
-	SexFilter   string          `json:"sex_filter"`
+	SexFilter   SexFilter       `json:"sex_filter"`
 	Categories  []string        `json:"categories"`
 	Prevalence  Prevalence      `json:"prevalence"`
 	Acuteness   Acuteness       `json:"acuteness"`
