@@ -14,14 +14,59 @@ type App struct {
 	baseURL string
 	appID   string
 	appKey  string
+	model   string
 }
 
-func NewApp(id, key string) App {
+func NewApp(id, key, model string) App {
 	return App{
 		baseURL: "https://api.infermedica.com/v2/",
 		appID:   id,
 		appKey:  key,
+		model:   model,
 	}
+}
+
+func (a App) prepareRequest(method, url string, body interface{}) (*http.Request, error) {
+
+	switch method {
+	case "GET":
+		return a.prepareGETRequest(url)
+	case "POST":
+		return a.preparePOSTRequest(url, body)
+	}
+	return nil, errors.New("Method not allowed")
+}
+
+func (a App) addHeaders(req *http.Request) {
+	req.Header.Add("App-Id", a.appID)
+	req.Header.Add("App-Key", a.appKey)
+	req.Header.Add("Content-Type", "application/json")
+	if a.model != "" {
+		req.Header.Add("Model", a.model)
+	}
+}
+
+func (a App) prepareGETRequest(url string) (*http.Request, error) {
+	req, err := http.NewRequest("GET", a.baseURL+url, nil)
+	if err != nil {
+		return nil, err
+	}
+	a.addHeaders(req)
+	return req, nil
+}
+
+func (a App) preparePOSTRequest(url string, body interface{}) (*http.Request, error) {
+	b := new(bytes.Buffer)
+	err := json.NewEncoder(b).Encode(body)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest("POST", a.baseURL+url, b)
+	if err != nil {
+		return nil, err
+	}
+	a.addHeaders(req)
+	return req, nil
 }
 
 type Sex string
@@ -120,44 +165,4 @@ func EvidenceChoiceIDFromString(x string) (EvidenceChoiceID, error) {
 type Evidence struct {
 	ID       string           `json:"id"`
 	ChoiceID EvidenceChoiceID `json:"choice_id"`
-}
-
-func (a App) prepareRequest(method, url string, body interface{}) (*http.Request, error) {
-
-	switch method {
-	case "GET":
-		return a.prepareGETRequest(url)
-	case "POST":
-		return a.preparePOSTRequest(url, body)
-	}
-	return nil, errors.New("Method not allowed")
-}
-
-func (a App) addHeaders(req *http.Request) {
-	req.Header.Add("App-Id", a.appID)
-	req.Header.Add("App-Key", a.appKey)
-	req.Header.Add("Content-Type", "application/json")
-}
-
-func (a App) prepareGETRequest(url string) (*http.Request, error) {
-	req, err := http.NewRequest("GET", a.baseURL+url, nil)
-	if err != nil {
-		return nil, err
-	}
-	a.addHeaders(req)
-	return req, nil
-}
-
-func (a App) preparePOSTRequest(url string, body interface{}) (*http.Request, error) {
-	b := new(bytes.Buffer)
-	err := json.NewEncoder(b).Encode(body)
-	if err != nil {
-		return nil, err
-	}
-	req, err := http.NewRequest("POST", a.baseURL+url, b)
-	if err != nil {
-		return nil, err
-	}
-	a.addHeaders(req)
-	return req, nil
 }
