@@ -20,14 +20,18 @@ type DiagnosisReq struct {
 type DiagnosisRes struct {
 	Question   Question                `json:"question"`
 	Conditions []DiagnosisConditionRes `json:"conditions"`
+	Extras     interface{}             `json:"extras"`
 }
 
 // QuestionType is a list of question types
 type QuestionType string
 
 const (
-	QuestionTypeSingle        QuestionType = "single"
-	QuestionTypeGroupSingle   QuestionType = "group_single"
+	// QuestionTypeSingle single question
+	QuestionTypeSingle QuestionType = "single"
+	// QuestionTypeGroupSingle question group
+	QuestionTypeGroupSingle QuestionType = "group_single"
+	// QuestionTypeGroupMultiple multiple question groups
 	QuestionTypeGroupMultiple QuestionType = "group_multiple"
 )
 
