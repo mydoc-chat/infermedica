@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"strconv"
@@ -55,7 +56,7 @@ func (a *App) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]
 	if !st.IsValid() {
 		return nil, errors.New("Unexpected value for search type")
 	}
-	url := "search?phrase=" + phrase + "&sex=" + sex.String() + "&max_results=" + strconv.Itoa(maxResults) + "&type=" + st.String()
+	url := "search?phrase=" + url.QueryEscape(phrase) + "&sex=" + sex.String() + "&max_results=" + strconv.Itoa(maxResults) + "&type=" + st.String()
 	req, err := a.prepareRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
