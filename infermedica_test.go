@@ -1,5 +1,7 @@
 package infermedica
 
+import "os"
+
 func GetTestAppInstance() App {
-	return NewApp("86f0b979", "b6c636000afb59b0f2af89222853dbc6", "infermedica-en")
+	return NewApp(os.Getenv("INFERMEDICA_APP_ID"), os.Getenv("INFERMEDICA_APP_KEY"), "infermedica-en")
 }
