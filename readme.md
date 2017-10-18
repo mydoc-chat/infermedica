@@ -12,11 +12,11 @@ This is a Go interface to the Infermedica REST API: https://developer.infermedic
 ## Usage examples
 
 #### Fetching symptoms
-```
+```go
 app := infermedica.NewApp("appid", "appkey", "model")
-symptoms, err := app.Symptoms
+symptoms, err := app.Symptoms()
 if err != nil {
-    log.Errorf("there was a problem with fetching symptoms: %v", err)
+    log.Errorf("Could not fetch symptoms: %v", err)
 }
 log.Infof("All Symptoms: %v", symptoms)
 ```
