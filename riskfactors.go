@@ -12,7 +12,7 @@ type RiskFactorRes struct {
 	SexFilter   SexFilter `json:"sex_filter"`
 	Category    string    `json:"category"`
 	Seriousness string    `json:"seriousness"`
-	ImageUrl    string    `json:"image_url"`
+	ImageURL    string    `json:"image_url"`
 	ImageSource string    `json:"image_source"`
 }
 
