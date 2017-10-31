@@ -24,3 +24,29 @@ func testLabTestByID(a App, r LabTestsRes, t *testing.T) {
 	assert.Equal(t, res.Name, r.Name)
 	assert.Equal(t, res.CommonName, r.CommonName)
 }
+
+func TestApp_LabTestsRecommend(t *testing.T) {
+	a := GetTestAppInstance()
+	r := DiagnosisReq{
+		Sex: SexMale,
+		Age: 30,
+		Evidences: []Evidence{
+			Evidence{
+				ID:       "s_1193",
+				ChoiceID: EvidenceChoiceIDPresent,
+			},
+			Evidence{
+				ID:       "s_488",
+				ChoiceID: EvidenceChoiceIDPresent,
+			},
+			Evidence{
+				ID:       "s_418",
+				ChoiceID: EvidenceChoiceIDPresent,
+			},
+		},
+	}
+	res, err := a.LabTestsRecommend(r)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, res.Recommended)
+	assert.NotEmpty(t, res.Obligatory)
+}

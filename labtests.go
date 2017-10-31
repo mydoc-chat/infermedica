@@ -57,8 +57,8 @@ func (a *App) LabTestByID(id string) (*LabTestsRes, error) {
 }
 
 type LabTestsRecommendRes struct {
-	Recommended *[]LabTestsRecommendation `json:"recommended"`
-	Obligatory  *[]LabTestsRecommendation `json:"obligatory"`
+	Recommended []LabTestsRecommendation `json:"recommended"`
+	Obligatory  []LabTestsRecommendation `json:"obligatory"`
 }
 type LabTestsRecommendation struct {
 	PanelID  string       `json:"panel_id"`
@@ -71,7 +71,7 @@ type LabTestsID struct {
 }
 
 // Recommend is a func to request lab test recommendations for given data
-func (a *App) Recommend(dr DiagnosisReq) (*LabTestsRecommendRes, error) {
+func (a *App) LabTestsRecommend(dr DiagnosisReq) (*LabTestsRecommendRes, error) {
 	if !dr.Sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
