@@ -38,6 +38,18 @@ func (a *App) LabTests() (*[]LabTestsRes, error) {
 	return &r, nil
 }
 
+func (a *App) LabTestsIDMap() (*map[string]LabTestsRes, error) {
+	r, err := a.LabTests()
+	if err != nil {
+		return nil, err
+	}
+	rmap := make(map[string]LabTestsRes)
+	for _, sr := range *r {
+		rmap[sr.ID] = sr
+	}
+	return &rmap, nil
+}
+
 func (a *App) LabTestByID(id string) (*LabTestsRes, error) {
 	req, err := a.prepareRequest("GET", "lab_tests/"+id, nil)
 	if err != nil {
