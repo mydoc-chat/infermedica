@@ -149,6 +149,18 @@ func (a *App) Conditions() (*[]ConditionRes, error) {
 	return &r, nil
 }
 
+func (a *App) ConditionsIDMap() (*map[string]ConditionRes, error) {
+	r, err := a.Conditions()
+	if err != nil {
+		return nil, err
+	}
+	rmap := make(map[string]ConditionRes)
+	for _, sr := range *r {
+		rmap[sr.ID] = sr
+	}
+	return &rmap, nil
+}
+
 func (a *App) ConditionByID(id string) (*ConditionRes, error) {
 	req, err := a.prepareGETRequest("conditions/" + id)
 	if err != nil {
