@@ -26,6 +26,7 @@ func (a *App) RiskFactors() (*[]RiskFactorRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := []RiskFactorRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
@@ -44,6 +45,7 @@ func (a *App) RiskFactorByID(id string) (*RiskFactorRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := RiskFactorRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

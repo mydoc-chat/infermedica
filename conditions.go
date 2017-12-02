@@ -141,6 +141,7 @@ func (a *App) Conditions() (*[]ConditionRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := []ConditionRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
@@ -171,6 +172,7 @@ func (a *App) ConditionByID(id string) (*ConditionRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := ConditionRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

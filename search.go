@@ -66,6 +66,7 @@ func (a *App) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := []SearchRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

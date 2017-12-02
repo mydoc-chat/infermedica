@@ -72,6 +72,7 @@ func (a *App) Triage(tr TriageReq) (*TriageRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := TriageRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

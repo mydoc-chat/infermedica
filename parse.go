@@ -32,6 +32,7 @@ func (a *App) Parse(pr ParseReq) (*ParseRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := ParseRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

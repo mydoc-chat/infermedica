@@ -26,6 +26,7 @@ func (a *App) Lookup(phrase string, sex Sex) (*LookupRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := LookupRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

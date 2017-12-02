@@ -34,6 +34,7 @@ func (a *App) Explain(er ExplainReq) (*ExplainRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := ExplainRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {

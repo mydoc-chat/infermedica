@@ -99,6 +99,7 @@ func (a *App) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 	r := DiagnosisRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
