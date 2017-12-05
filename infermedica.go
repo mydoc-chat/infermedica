@@ -165,4 +165,5 @@ func EvidenceChoiceIDFromString(x string) (EvidenceChoiceID, error) {
 type Evidence struct {
 	ID       string           `json:"id"`
 	ChoiceID EvidenceChoiceID `json:"choice_id"`
+	Initial  bool             `json:"initial"`
 }

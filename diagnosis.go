@@ -11,15 +11,22 @@ import (
 
 // DiagnosisReq is a struct to request diagnosis
 type DiagnosisReq struct {
-	Sex       Sex        `json:"sex"`
-	Age       int        `json:"age"`
-	Evidences []Evidence `json:"evidence"`
+	Sex       Sex               `json:"sex"`
+	Age       int               `json:"age"`
+	Evidences []Evidence        `json:"evidence"`
+	Extras    DiagnosisReqExras `json:"extras"`
+}
+
+// DiagnosisReqExras contains extra params for DiagnosisReq
+type DiagnosisReqExras struct {
+	DisableGroups bool `json:"disable_groups"`
 }
 
 // DiagnosisRes is a response struct for diagnosis
 type DiagnosisRes struct {
 	Question   Question                `json:"question"`
 	Conditions []DiagnosisConditionRes `json:"conditions"`
+	ShouldStop bool                    `json:"should_stop"`
 	Extras     interface{}             `json:"extras"`
 }
 
