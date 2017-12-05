@@ -11,18 +11,20 @@ import (
 )
 
 type App struct {
-	baseURL string
-	appID   string
-	appKey  string
-	model   string
+	baseURL     string
+	appID       string
+	appKey      string
+	model       string
+	interviewID string
 }
 
-func NewApp(id, key, model string) App {
+func NewApp(id, key, model, interviewID string) App {
 	return App{
-		baseURL: "https://api.infermedica.com/v2/",
-		appID:   id,
-		appKey:  key,
-		model:   model,
+		baseURL:     "https://api.infermedica.com/v2/",
+		appID:       id,
+		appKey:      key,
+		model:       model,
+		interviewID: interviewID,
 	}
 }
 
@@ -43,6 +45,9 @@ func (a App) addHeaders(req *http.Request) {
 	req.Header.Add("Content-Type", "application/json")
 	if a.model != "" {
 		req.Header.Add("Model", a.model)
+	}
+	if a.interviewID != "" {
+		req.Header.Add("Interview-Id", a.interviewID)
 	}
 }
 
