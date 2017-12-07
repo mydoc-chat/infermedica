@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -101,7 +102,9 @@ func (a *App) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

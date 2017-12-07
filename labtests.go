@@ -3,6 +3,7 @@ package infermedica
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -25,7 +26,9 @@ func (a *App) LabTests() (*[]LabTestsRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

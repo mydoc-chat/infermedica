@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"strconv"
 
@@ -61,7 +62,9 @@ func (a *App) Search(phrase string, sex Sex, maxResults int, st SearchType) (*[]
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

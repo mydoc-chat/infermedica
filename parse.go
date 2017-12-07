@@ -3,6 +3,7 @@ package infermedica
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 type ParseReq struct {
@@ -27,7 +28,9 @@ func (a *App) Parse(pr ParseReq) (*ParseRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

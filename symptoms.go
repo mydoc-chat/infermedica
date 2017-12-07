@@ -3,6 +3,7 @@ package infermedica
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 type SymptomRes struct {
@@ -28,7 +29,9 @@ func (a *App) Symptoms() (*[]SymptomRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

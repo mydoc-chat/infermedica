@@ -4,29 +4,30 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
-type ExplainReq struct {
+// SuggestReq is a struct to request suggestions
+type SuggestReq struct {
 	Sex       Sex        `json:"sex"`
 	Age       int        `json:"age"`
-	Target    string     `json:"target"`
 	Evidences []Evidence `json:"evidence"`
 }
 
-type ExplainRes struct {
-	SupportingEvidence  []EvidenceItem `json:"supporting_evidence"`
-	ConflictingEvidence []EvidenceItem `json:"conflicting_evidence"`
-	UnconfirmedEvidence []EvidenceItem `json:"unconfirmed_evidence"`
-}
-
-type EvidenceItem struct {
+// SuggestRes is a response struct for suggest
+type SuggestRes struct {
 	ID         string `json:"id"`
 	Name       string `json:"name"`
 	CommonName string `json:"common_name"`
 }
 
-func (a *App) Explain(er ExplainReq) (*ExplainRes, error) {
-	req, err := a.prepareRequest("POST", "explain", er)
+// Suggest is a func to request suggestions
+func (a *App) Suggest(sr SuggestReq) (*SuggestRes, error) {
+	if !sr.Sex.IsValid() {
+		return nil, errors.New("Unexpected value for Sex")
+	}
+	req, err := a.prepareRequest("POST", "suggest", sr)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +39,7 @@ func (a *App) Explain(er ExplainReq) (*ExplainRes, error) {
 		return nil, err
 	}
 	defer res.Body.Close()
-	r := ExplainRes{}
+	r := SuggestRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
