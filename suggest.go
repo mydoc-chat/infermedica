@@ -23,7 +23,7 @@ type SuggestRes struct {
 }
 
 // Suggest is a func to request suggestions
-func (a *App) Suggest(sr SuggestReq) (*SuggestRes, error) {
+func (a *App) Suggest(sr SuggestReq) (*[]SuggestRes, error) {
 	if !sr.Sex.IsValid() {
 		return nil, errors.New("Unexpected value for Sex")
 	}
@@ -39,7 +39,7 @@ func (a *App) Suggest(sr SuggestReq) (*SuggestRes, error) {
 		return nil, err
 	}
 	defer res.Body.Close()
-	r := SuggestRes{}
+	r := []SuggestRes{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err
