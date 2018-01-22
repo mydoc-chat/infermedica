@@ -30,7 +30,7 @@ func (a *App) Symptoms() (*[]SymptomRes, error) {
 		return nil, err
 	}
 	client := &http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 10,
 	}
 	res, err := client.Do(req)
 	if err != nil {
