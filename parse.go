@@ -24,10 +24,13 @@ type Mention struct {
 }
 
 func (a *App) Parse(pr ParseReq) (*ParseRes, error) {
+	model := a.model
+	a.model = ""
 	req, err := a.preparePOSTRequest("parse", pr)
 	if err != nil {
 		return nil, err
 	}
+	a.model = model
 	client := &http.Client{
 		Timeout: time.Second * 5,
 	}
