@@ -17,6 +17,11 @@ type SearchRes struct {
 	ID    string `json:"id"`
 	Label string `json:"label"`
 }
+type LabTestsSearchRes struct {
+	ID      string      `json:"id"`
+	Label   string      `json:"label"`
+	Results []LabResult `json:"results"`
+}
 
 type SearchType string
 
