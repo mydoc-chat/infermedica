@@ -114,7 +114,7 @@ type Condition struct {
 	ID         string `json:"id"`
 	Name       string `json:"name"`
 	CommonName string `json:"common_name"`
-	ICD10Code  string `json:"icd10_code"`
+	Probability float `json:"probability"`
 }
 
 type ConditionRes struct {
