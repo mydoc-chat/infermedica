@@ -29,7 +29,6 @@ func NewApp(id, key, model, interviewID string) App {
 }
 
 func (a App) prepareRequest(method, url string, body interface{}) (*http.Request, error) {
-
 	switch method {
 	case "GET":
 		return a.prepareGETRequest(url)
@@ -66,7 +65,11 @@ func (a App) preparePOSTRequest(url string, body interface{}) (*http.Request, er
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("POST", a.baseURL+url, b)
+	baseURL := a.baseURL
+	if strings.Index(url, "covid19") != -1 {
+		baseURL = strings.ReplaceAll(baseURL, "v2/", "")
+	}
+	req, err := http.NewRequest("POST", baseURL+url, b)
 	if err != nil {
 		return nil, err
 	}
@@ -171,4 +174,9 @@ type Evidence struct {
 	ID       string           `json:"id"`
 	ChoiceID EvidenceChoiceID `json:"choice_id"`
 	Initial  bool             `json:"initial"`
+}
+
+type EvidenceCovid19 struct {
+	ID       string           `json:"id"`
+	ChoiceID EvidenceChoiceID `json:"choice_id"`
 }
