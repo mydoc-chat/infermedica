@@ -1,4 +1,4 @@
-module github.com/torniker/infermedica
+module github.com/mydoc-chat/infermedica
 
 go 1.12
 

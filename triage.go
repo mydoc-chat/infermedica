@@ -15,19 +15,6 @@ type TriageReq struct {
 	Age       int        `json:"age"`
 	Evidences []Evidence `json:"evidence"`
 }
-type TriageCovid19Req struct {
-	Sex       Sex               `json:"sex"`
-	Age       int               `json:"age"`
-	Evidences []EvidenceCovid19 `json:"evidence"`
-}
-
-type TriageCovid19Res struct {
-	Description string    `json:"description"`
-	Label       string    `json:"label"`
-	TriageLevel string    `json:"triage_level"`
-	Serious     []Serious `json:"serious"`
-}
-
 type TriageRes struct {
 	TriageLevel TriageLevel `json:"triage_level"`
 	Serious     []Serious   `json:"serious"`
@@ -89,30 +76,6 @@ func (a *App) Triage(tr TriageReq) (*TriageRes, error) {
 	}
 	defer res.Body.Close()
 	r := TriageRes{}
-	err = json.NewDecoder(res.Body).Decode(&r)
-	if err != nil {
-		return nil, err
-	}
-	return &r, nil
-}
-
-func (a *App) TriageCovid19(tr TriageCovid19Req) (*TriageCovid19Res, error) {
-	if !tr.Sex.IsValid() {
-		return nil, errors.New("Unexpected value for Sex")
-	}
-	req, err := a.prepareRequest("POST", "covid19/triage", tr)
-	if err != nil {
-		return nil, err
-	}
-	client := &http.Client{
-		Timeout: time.Second * 5,
-	}
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-	r := TriageCovid19Res{}
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
 		return nil, err

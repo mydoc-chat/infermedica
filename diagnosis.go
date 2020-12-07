@@ -18,10 +18,10 @@ type DiagnosisReq struct {
 	Extras    DiagnosisReqExras `json:"extras"`
 }
 
-type DiagnosisReqCovid19 struct {
+type DiagnosisReqCovid struct {
 	Sex       Sex               `json:"sex"`
 	Age       int               `json:"age"`
-	Evidences []EvidenceCovid19 `json:"evidence"`
+	Evidences []EvidenceCovid   `json:"evidence"`
 	Extras    DiagnosisReqExras `json:"extras"`
 }
 
@@ -122,38 +122,5 @@ func (a *App) Diagnosis(dr DiagnosisReq) (*DiagnosisRes, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &r, nil
-}
-
-// Covid19 is a func to request diagnosis for covid-19 data
-func (a *App) Covid19(dr DiagnosisReqCovid19) (*DiagnosisRes, error) {
-	if !dr.Sex.IsValid() {
-		return nil, errors.New("Unexpected value for Sex")
-	}
-	b, _ := json.Marshal(dr)
-	fmt.Printf("body: %v\n", string(b))
-	req, err := a.prepareRequest("POST", "covid19/diagnosis", dr)
-	if err != nil {
-		return nil, err
-	}
-	client := &http.Client{
-		Timeout: time.Second * 5,
-	}
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-	// bodyBytes, _ := ioutil.ReadAll(res.Body)
-	// fmt.Printf("url: %#v\n", req.URL)
-	// fmt.Printf("request: %#v\n", req)
-	// fmt.Printf("response: %v", string(bodyBytes))
-	// fmt.Printf("response: %#v", res.Body)
-	r := DiagnosisRes{}
-	err = json.NewDecoder(res.Body).Decode(&r)
-	if err != nil {
-		return nil, err
-	}
-	// fmt.Printf("response: %#v\n", r)
 	return &r, nil
 }

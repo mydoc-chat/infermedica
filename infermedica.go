@@ -176,7 +176,7 @@ type Evidence struct {
 	Initial  bool             `json:"initial"`
 }
 
-type EvidenceCovid19 struct {
+type EvidenceCovid struct {
 	ID       string           `json:"id"`
 	ChoiceID EvidenceChoiceID `json:"choice_id"`
 }
