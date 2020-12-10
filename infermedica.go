@@ -51,7 +51,11 @@ func (a App) addHeaders(req *http.Request) {
 }
 
 func (a App) prepareGETRequest(url string) (*http.Request, error) {
-	req, err := http.NewRequest("GET", a.baseURL+url, nil)
+	baseURL := a.baseURL
+	if strings.Index(url, "covid19") != -1 {
+		baseURL = strings.ReplaceAll(baseURL, "v2/", "")
+	}
+	req, err := http.NewRequest("GET", baseURL+url, nil)
 	if err != nil {
 		return nil, err
 	}
