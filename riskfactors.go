@@ -15,6 +15,7 @@ type RiskFactorRes struct {
 	Seriousness string    `json:"seriousness"`
 	ImageURL    string    `json:"image_url"`
 	ImageSource string    `json:"image_source"`
+	Question    string    `json:"question"`
 }
 
 func (a *App) RiskFactors() (*[]RiskFactorRes, error) {

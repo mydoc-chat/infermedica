@@ -94,3 +94,43 @@ func (a *App) CovidTriage(dr CovidDiagnosisReq) (*CovidTriageRes, error) {
 	}
 	return &r, nil
 }
+
+func (a *App) CovidRiskFactors() (*[]RiskFactorRes, error) {
+	req, err := a.prepareRequest("GET", "covid19/risk_factors", nil)
+	if err != nil {
+		return nil, err
+	}
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	r := []RiskFactorRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
+	if err != nil {
+		return nil, err
+	}
+	return &r, nil
+}
+
+func (a *App) CovidSymptoms() (*[]SymptomRes, error) {
+	req, err := a.prepareRequest("GET", "covid19/symptoms", nil)
+	if err != nil {
+		return nil, err
+	}
+	client := &http.Client{
+		Timeout: time.Second * 10,
+	}
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	r := []SymptomRes{}
+	err = json.NewDecoder(res.Body).Decode(&r)
+	if err != nil {
+		return nil, err
+	}
+	return &r, nil
+}

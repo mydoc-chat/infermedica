@@ -17,6 +17,8 @@ type SymptomRes struct {
 	ImageSource    string         `json:"image_source"`
 	ParentID       string         `json:"parent_id"`
 	ParentRelation string         `json:"parent_relation"`
+	Question       string         `json:"question"`
+	SexFilter      SexFilter      `json:"sex_filter"`
 }
 
 type SymptomChild struct {
